@@ -20,12 +20,16 @@ jobs:
       - uses: narumiruna/setup-rye-action@v1
         with:
             rye-version: ${{ matrix.rye-version }}
-      - uses: actions/setup-python@v5
+      - uses: actions/cache@v4
         with:
-          python-version: ${{ matrix.python-version }}
-          cache: pip
+            path: .venv
+            key: ${{ runner.os }}-venv
+    #   - uses: actions/setup-python@v5
+    #     with:
+    #       python-version: ${{ matrix.python-version }}
+    #       cache: pip
       - name: Install dependencies
-        run: rye sync
+        run: pip install .
       - name: Lint
         run: rye check .
       - name: Type check
