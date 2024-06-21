@@ -17,7 +17,7 @@ jobs:
         rye-version: ["latest"]
     steps:
       - uses: actions/checkout@v4
-      - uses: narumiruna/setup-rye-action@v1.2.0
+      - uses: narumiruna/setup-rye-action@main
         with:
             version: ${{ matrix.rye-version }}
             cache: true
