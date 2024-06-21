@@ -29,7 +29,7 @@ jobs:
     #       python-version: ${{ matrix.python-version }}
     #       cache: pip
       - name: Install dependencies
-        run: pip install .
+        run: rye sync
       - name: Lint
         run: rye check .
       - name: Type check
