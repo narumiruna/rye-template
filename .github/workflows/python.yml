@@ -1,0 +1,38 @@
+name: Python
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 1
+      matrix:
+        python-version: ["3.11"]
+        rye-version: ["latest"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: narumiruna/setup-rye-action@v1
+        with:
+            rye-version: ${{ matrix.rye-version }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Install dependencies
+        run: rye sync
+      - name: Lint
+        run: rye check .
+      - name: Type check
+        run: rye run mypy --install-types --non-interactive .
+      - name: Test
+        run: rye run pytest -v -s --cov=. --cov-report=xml tests
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
