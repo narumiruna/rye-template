@@ -31,7 +31,7 @@ jobs:
       - name: Type check
         run: rye run mypy --install-types --non-interactive .
       - name: Test
-        run: rye run pytest -v -s --cov=. --cov-report=xml tests
+        run: rye run pytest -v -s --cov=src --cov-report=xml tests
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4
         env:
